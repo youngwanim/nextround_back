@@ -15,9 +15,12 @@ import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'base')
-#BASE_DIR = os.path.dirname('/Users/im-yeong-wan/work/kdb/nextround/bak_nextround/project_rana/base/')
 PROJECT_ROOT = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'rana')
-LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs')
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# Base url to serve media files
+MEDIA_URL = '/media/'
+
 
 sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
 
@@ -31,7 +34,9 @@ SECRET_KEY = 'hq2gqr8hg_1i^reg-2*dk3tr_4y*=ui1_uaq%*7bnn6#l=egyt'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+LOG_PREFIX = 'dev_api'
+
+ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 
@@ -43,11 +48,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'rana',
+    'rana.common',
     'rana.users',
+    'rana.bplatform',
+    'rana.oss',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -76,6 +86,71 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.development.wsgi.application'
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s'
+        },
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console_info': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'console_error': {
+            'level': 'ERROR',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file_info': {
+            'level': 'INFO',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, LOG_PREFIX + '_info.log'),
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 14,
+            'formatter': 'verbose',
+        },
+        'file_error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': os.path.join(LOG_DIR, LOG_PREFIX + '_error.log'),
+            'when': 'D',
+            'interval': 1,
+            'backupCount': 14,
+            'formatter': 'verbose',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+        'users_info': {
+            'handlers': ['console_info', 'file_info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'users_error': {
+            'handlers': ['console_error', 'file_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
 
 
 # Database
@@ -107,6 +182,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'OPTIONS'
+)
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'open-id',
+    'hub-id',
+    'os-type'
+)
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
