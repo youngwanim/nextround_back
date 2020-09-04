@@ -49,7 +49,7 @@ class PortfolioContent(models.Model):
     tech = models.CharField(default='', max_length=256,  blank=True)  # tech the service is based on
     ir_clip_url = models.CharField(default='', max_length=128, blank=True)  # url of IR video clip on our media server
     ir_clip_access = models.SmallIntegerField(default=0, )
-    ir_doc_url = models.CharField(default='', blank=True)
+    ir_doc_url = models.CharField(default='', max_length=128,  blank=True)
     ir_doc_access = models.SmallIntegerField(default=0)
 
     def __str__(self):

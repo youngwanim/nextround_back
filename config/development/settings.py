@@ -36,6 +36,7 @@ DEBUG = True
 
 LOG_PREFIX = 'dev_api'
 
+#ALLOWED_HOSTS = ['localhost','www.tgo-home.com','youngwanim.github.io']
 ALLOWED_HOSTS = ['localhost']
 
 # Application definition
@@ -54,6 +55,7 @@ INSTALLED_APPS = [
     'rana.users',
     'rana.bplatform',
     'rana.oss',
+	'rana.portfolio',
 ]
 
 MIDDLEWARE = [
