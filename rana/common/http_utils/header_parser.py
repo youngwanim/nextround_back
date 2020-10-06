@@ -35,7 +35,6 @@ def parse_auth_info_with_exception(request):
             access_token = None
     else:
         access_token = None
-
     if open_id is None or access_token is None:
         raise AuthInfoError
 

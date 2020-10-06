@@ -14,14 +14,15 @@ class SignInManager:
     def set_login_data(self, login_key, login_value):
         self.logger_info.info('[UserManager][[set_login_data]%s : %s', str(login_key), str(login_value))
         try:
-            user_login_instance = self.user_service.get_login_info_with_key_value(
+            user_login_instance = self.user_service.get_login_info_inst_with_key_value(
                 login_key, login_value
             )
-            user_data = self.user_service.get_user_data_with_ins(user_login_instance.user)
+    #        user_data = self.user_service.get_user_data_with_ins(user_login_instance.user)
+            if user_login_instance is not None:
+                user_data = self.user_service.get_user_data_login_info_with_ins(user_login_instance.user, user_login_instance)
+                self.result = user_data
         except Exception as e:
             self.logger_info.info(str(e))
-        else:
-            self.result = user_data
 
         return self.result
 

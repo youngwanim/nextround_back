@@ -8,7 +8,7 @@ from django.db import transaction
 from rana.common import urlmapper, code
 from rana.common.models import ResultResponse
 from rana.users.models import User, UserLoginInfo
-from rana.users.serializers import UserSerializer
+from rana.users.serializers import UserSerializer, UserSigninSerializer
 
 
 class UserService:
@@ -18,7 +18,7 @@ class UserService:
         self.logger_info = logger_info
         self.logger_error = logger_error
 
-    def get_login_info_with_key_value(self, login_key, login_value):
+    def get_login_info_inst_with_key_value(self, login_key, login_value):
         try:
             login_info = UserLoginInfo.objects.get(login_key=login_key, login_value=login_value)
         except Exception as e:
@@ -48,6 +48,17 @@ class UserService:
         except Exception as e:
             self.logger_info.info(str(e))
         else:
+            self.result = user_data
+
+        return self.result
+
+    def get_user_data_login_info_with_ins(self, user_instance, user_login_instance):
+        try:
+            user_data = UserSigninSerializer(user_instance).data
+        except Exception as e:
+            self.logger_info.info(str(e))
+        else:
+            user_data['login_key'] = user_login_instance.login_key
             self.result = user_data
 
         return self.result
@@ -97,3 +108,13 @@ class UserService:
     def set_user_business_card(self, business_card_url):
         pass
 
+    def check_user_with_login_key(self, login_key):
+        try:
+            already_exists = UserLoginInfo.objects.filter(login_key=login_key).exists()
+        except Exception as e:
+            print(e)
+            self.result = False
+        else:
+            self.result = already_exists
+
+        return self.result

@@ -29,3 +29,17 @@ def get_user_information_on_request(request):
         result = (False, None)
 
     return result
+
+
+def validate_user_res_openid_on_request(request):
+    try:
+        auth_info = parse_auth_info_with_exception(request)
+        user_response = get_user_information(auth_info.open_id, auth_info.access_token)
+        if user_response[0]:
+            result = (True, auth_info.open_id, user_response[1]['user'])
+        else:
+            result = (False, None, None)
+    except AuthInfoError:
+        result = (False, None, None)
+
+    return result

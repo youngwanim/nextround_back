@@ -19,21 +19,21 @@ class User(models.Model):
     email = models.EmailField(max_length=254, null=True, blank=True)
     mdn = models.CharField(default='', max_length=32, blank=True)
     locale = models.CharField(max_length=5, default='ko', null=True)
-    profile_image = models.CharField(max_length=64, blank=True, default='')
+    profile_image = models.CharField(max_length=256, blank=True, default='')
     created_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     last_visited_date = models.DateTimeField(auto_now=True, null=True, blank=True)
     address = models.CharField(default='', max_length=256, blank=True)
-    business_card = models.CharField(default='', max_length=128, blank=True)  # url of the user's business card image
+    business_card = models.CharField(default='', max_length=256, blank=True)  # url of the user's business card image
 
     def __str__(self):
-        return str(self.name + ' : ' + self.open_id)
+        return str(self.name + ' : ' + self.email + ' : '+ self.open_id)
 
     class Meta:
         ordering = ('-id', )
 
 
 class UserLoginInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='userlogininfos', on_delete=models.CASCADE)
     login_key = models.CharField(max_length=64)   # id
     login_value = models.CharField(max_length=64)  # password
 

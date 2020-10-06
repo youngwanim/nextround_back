@@ -22,6 +22,7 @@ urlpatterns = [
     path('users/', include('rana.users.urls'), name='users'),
     path('platform/', include('rana.bplatform.urls'), name='bplatform'),
     path('oss/', include('rana.oss.urls'), name='oss'),
+    path('portfolio/', include('rana.portfolio.urls'), name='portfolio'),
     path('admin/', admin.site.urls),
 ]
 

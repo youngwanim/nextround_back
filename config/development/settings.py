@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     'rana.users',
     'rana.bplatform',
     'rana.oss',
-	'rana.portfolio',
+    'rana.portfolio',
 ]
 
 MIDDLEWARE = [
@@ -137,7 +137,7 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins'],
+            'handlers': ['console_info', 'file_info'],
             'level': 'ERROR',
             'propagate': False,
         },
@@ -147,6 +147,36 @@ LOGGING = {
             'propagate': True,
         },
         'users_error': {
+            'handlers': ['console_error', 'file_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'platform_info': {
+            'handlers': ['console_info', 'file_info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'platform_error': {
+            'handlers': ['console_error', 'file_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'oss_info': {
+            'handlers': ['console_info', 'file_info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'oss_error': {
+            'handlers': ['console_error', 'file_error'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'portfolio_info': {
+            'handlers': ['console_info', 'file_info'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'portfolio_error': {
             'handlers': ['console_error', 'file_error'],
             'level': 'ERROR',
             'propagate': True,

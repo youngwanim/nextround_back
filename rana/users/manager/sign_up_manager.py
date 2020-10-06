@@ -26,3 +26,17 @@ class SignUpManager:
             self.result = new_user_data
 
         return self.result
+
+    def check_user_exists(self, login_key):
+        self.logger_info.info('[UserManager][check_user_exists]check user exists with : %s', str(login_key))
+        try:
+            is_exists = self.user_service.check_user_with_login_key(login_key)
+        except Exception as e:
+            print(e)
+            self.logger_info.info(str(e))
+            self.result = False
+        else:
+            self.result = is_exists
+
+        return self.result
+
