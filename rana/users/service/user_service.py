@@ -8,7 +8,7 @@ from django.db import transaction
 from rana.common import urlmapper, code
 from rana.common.models import ResultResponse
 from rana.users.models import User, UserLoginInfo
-from rana.users.serializers import UserSerializer, UserSigninSerializer
+from rana.users.serializers import UserSerializer, UserSignupSerializer, UserSigninSerializer
 
 
 class UserService:
@@ -102,7 +102,7 @@ class UserService:
             print('[user_service][create_new_user]Exception happens while creating user instance')
             self.logger_info.info(str(e))
         else:
-            self.result = UserSerializer(user_instance).data
+            self.result = UserSignupSerializer(user_instance).data
         return self.result
 
     def set_user_business_card(self, business_card_url):

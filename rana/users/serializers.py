@@ -9,6 +9,12 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ('open_id', 'access_token', 'created_date', 'last_visited_date')
 
 
+class UserSignupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ('created_date', 'last_visited_date')
+
+
 class UserAdminSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

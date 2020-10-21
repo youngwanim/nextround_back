@@ -36,8 +36,8 @@ DEBUG = True
 
 LOG_PREFIX = 'dev_api'
 
-#ALLOWED_HOSTS = ['localhost','www.tgo-home.com','youngwanim.github.io']
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'www.tgo-home.com', 'youngwanim.github.io']
+# ALLOWED_HOSTS = ['localhost']
 
 # Application definition
 

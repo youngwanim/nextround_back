@@ -314,7 +314,7 @@ class PortfolioService:
             if ids is not None:
                 tag_query['id__in'] = ids
             tag_qs = TagTerm.objects.filter(**tag_query).select_related('tag')
-            print('tag_qs:', tag_qs)
+            # print('tag_qs:', str(tag_qs))
             tags_data = TagTermListSerializer(tag_qs, many=True).data
             print('tag_data: ', tags_data)
         except Exception as e:
