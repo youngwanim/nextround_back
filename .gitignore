@@ -63,4 +63,4 @@ coverage.xml
 *.log
 nohup.out
 run_bg_script.sh
-start.sh
+run_script.sh
